@@ -2,6 +2,10 @@ import {useState} from "react";
 import axios from "axios";
 import Cards from "./components/Cards/Cards.jsx";
 import Nav from "./components/Nav/Nav.jsx";
+import {Routes, Route} from 'react-router-dom';
+import About from './views/About/About.jsx';
+import Detail from './views/Detail/Detail.jsx';
+import ErrorPage from "./views/ErrorPage.jsx";
 
 import "./App.css";
 
@@ -65,8 +69,19 @@ function App() {
 
   return (
     <div className="App">
+      <div>
       <Nav onSearch={searchHandler} randomize={randomHandler} />
-      <Cards characters={characters} onClose={closeHandler} />
+        <Routes>
+          <Route path='/home' 
+            element={
+            <Cards characters={characters} onClose={closeHandler} />
+            } 
+          />
+          <Route path='/about' element={<About />}/>
+          <Route path='/detail/:id'element={<Detail/>}/>
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      </div>
     </div>
   );
 }
