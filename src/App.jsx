@@ -1,14 +1,19 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
+import {Routes, Route, useLocation, useNavigate} from 'react-router-dom';
+
 import axios from "axios";
+
 import Cards from "./components/Cards/Cards.jsx";
 import Nav from "./components/Nav/Nav.jsx";
-import {Routes, Route} from 'react-router-dom';
+import Form from "./components/Form/Form.jsx";
+
+
 import About from './views/About/About.jsx';
 import Detail from './views/Detail/Detail.jsx';
 import ErrorPage from "./views/ErrorPage.jsx";
 
-import "./App.css";
 
+import "./App.css";
 // const example = [
 //   {
 //     id: 1,
@@ -26,6 +31,26 @@ import "./App.css";
 
 function App() {
   const [characters, setCharacters] = useState([]);
+
+  const location = useLocation();
+
+  const navigate = useNavigate();
+  const [access, setAccess] = useState(false);
+  const EMAIL = 'email@gmail.com';
+  const PASSWORD = '1password';
+  
+  function login(userData) {
+     if (userData.password === PASSWORD && userData.email === EMAIL) {
+        setAccess(true);
+        navigate('/home');
+     }
+  }
+
+  useEffect(() => {
+    !access && navigate('/');
+ }, [access]);
+
+
 
   // nueva API
   //*https://rym2-production.up.railway.app/api/character/${id}?key=henrym-usuariodegithub
@@ -70,8 +95,10 @@ function App() {
   return (
     <div className="App">
       <div>
-      <Nav onSearch={searchHandler} randomize={randomHandler} />
+      {location.pathname !== '/' && <Nav onSearch={searchHandler} randomize={randomHandler} />}
+      
         <Routes>
+          <Route path='/' element={<Form login={login} />} />
           <Route path='/home' 
             element={
             <Cards characters={characters} onClose={closeHandler} />
