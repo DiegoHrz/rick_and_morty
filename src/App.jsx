@@ -1,5 +1,5 @@
-import {useState, useEffect} from "react";
-import {Routes, Route, useLocation, useNavigate} from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
@@ -7,13 +7,12 @@ import Cards from "./components/Cards/Cards.jsx";
 import Nav from "./components/Nav/Nav.jsx";
 import Form from "./components/Form/Form.jsx";
 
-
-import About from './views/About/About.jsx';
-import Detail from './views/Detail/Detail.jsx';
+import About from "./views/About/About.jsx";
+import Detail from "./views/Detail/Detail.jsx";
 import ErrorPage from "./views/ErrorPage.jsx";
 
-
 import "./App.css";
+
 // const example = [
 //   {
 //     id: 1,
@@ -36,21 +35,19 @@ function App() {
 
   const navigate = useNavigate();
   const [access, setAccess] = useState(false);
-  const EMAIL = 'email@gmail.com';
-  const PASSWORD = '1password';
-  
+  const EMAIL = "email@gmail.com";
+  const PASSWORD = "1password";
+
   function login(userData) {
-     if (userData.password === PASSWORD && userData.email === EMAIL) {
-        setAccess(true);
-        navigate('/home');
-     }
+    if (userData.password === PASSWORD && userData.email === EMAIL) {
+      setAccess(true);
+      navigate("/home");
+    }
   }
 
   useEffect(() => {
-    !access && navigate('/');
- }, [access]);
-
-
+    !access && navigate("/");
+  }, [access]);
 
   // nueva API
   //*https://rym2-production.up.railway.app/api/character/${id}?key=henrym-usuariodegithub
@@ -58,7 +55,7 @@ function App() {
   function searchHandler(id) {
     axios(
       `https://rym2-production.up.railway.app/api/character/${id}?key=henrym-hx-gcamey`
-    ).then(({data}) => {
+    ).then(({ data }) => {
       if (data.name) {
         setCharacters((oldChars) => [...oldChars, data]);
       } else {
@@ -95,17 +92,18 @@ function App() {
   return (
     <div className="App">
       <div>
-      {location.pathname !== '/' && <Nav onSearch={searchHandler} randomize={randomHandler} />}
-      
+        {location.pathname !== "/" && (
+          <Nav onSearch={searchHandler} randomize={randomHandler} />
+        )}
+
         <Routes>
-          <Route path='/' element={<Form login={login} />} />
-          <Route path='/home' 
-            element={
-            <Cards characters={characters} onClose={closeHandler} />
-            } 
+          <Route path="/" element={<Form login={login} />} />
+          <Route
+            path="/home"
+            element={<Cards characters={characters} onClose={closeHandler} />}
           />
-          <Route path='/about' element={<About />}/>
-          <Route path='/detail/:id'element={<Detail/>}/>
+          <Route path="/about" element={<About />} />
+          <Route path="/detail/:id" element={<Detail />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </div>

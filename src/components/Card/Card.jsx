@@ -1,6 +1,9 @@
 import {useNavigate} from "react-router-dom";
+import {connect} from 'react-redux';
+import {addFavorite, removeFavorite} from '../../redux/actions'
 
-export default function Card(props) {
+
+function Card(props) {
   const navigate = useNavigate();
   const {name, species, gender, image, onClose, id} = props;
 
@@ -28,3 +31,9 @@ export default function Card(props) {
     </div>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {}
+
+const mapStateToProps = () => {}
+
+export default connect(mapStateToProps)
