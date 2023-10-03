@@ -3,24 +3,18 @@ import { ADD_FAV, FILTER, ORDER, REMOVE_FAV } from "./action-types";
 const initialState = {
     myFavorites: [], //* [ {rick}, {morty, id: 2}, {beth} ]
     allCharacters: [],
-    user: ""
+    user: "",
+    errors: false
 }
 
 export default function reducer( state = initialState, {type, payload}) {
     //* action = { type, payload }
     // console.log(typeof payload)
     switch (type) {
-        case ADD_FAV:
-            return {
-                ...state,
-                allCharacters: [...state.allCharacters, payload]
-            }
-        case REMOVE_FAV:
-            const filteredFavs = state.allCharacters.filter(fav => fav.id !== Number(payload))
-            return {
-                ...state,
-                allCharacters: filteredFavs
-            }
+        case 'ADD_FAV':
+            return { ...state, myFavorites: payload, allCharacters: payload };
+        case 'REMOVE_FAV':
+                return { ...state, myFavorites: payload, allCharacters: payload };
         case FILTER:
             if(payload === "All") return {
                 ...state,
@@ -54,6 +48,13 @@ export default function reducer( state = initialState, {type, payload}) {
                 ...state,
                 myFavorites: orderCopy
             }
+        case "ERROR":
+            console.log(payload);
+            return {
+                ...state,
+                errors: payload
+            }
+
         default:
             return {...state}
     }

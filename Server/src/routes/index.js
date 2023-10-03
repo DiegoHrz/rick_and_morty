@@ -1,9 +1,19 @@
+const router = require("express").Router();
+
 const getCharById = require("../controllers/getCharById");
-const { postFav, deleteFav } = require("../controllers/handleFavorites");
 const login = require("../controllers/login");
+const { postFav, deleteFav } = require("../controllers/handleFavorites");
 
-const router = require("express");
+//* GET getCharById: "/character/:id"
+router.get("/character/:id", getCharById);
 
-router.get("/character/:id", (req, res) => {
-  res.send();
-});
+//* GET login: "/login"
+router.get("/login", login);
+
+//* POST postFav: "/fav"
+router.post("/fav", postFav);
+
+//* DELETE deleteFav: "/fav/:id"
+router.delete("/fav/:id", deleteFav);
+
+module.exports = router;
